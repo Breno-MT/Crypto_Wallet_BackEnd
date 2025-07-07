@@ -36,3 +36,9 @@ def create_user_db(user_body):
             status=400,
             mimetype="application/json"
         )
+
+def check_password_user(user_body): pass
+
+def login_user(user_body): pass
+
+def validate_token_user(token): pass
