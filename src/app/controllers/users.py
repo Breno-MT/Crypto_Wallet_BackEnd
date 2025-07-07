@@ -26,6 +26,7 @@ def get_users():
 
 @user.route("/create_user", methods=["POST"])
 def create_user():
+    # TODO: transform create_user into register_user
     """
     This URL expects "username, email, password" in order to create the user.
     """
