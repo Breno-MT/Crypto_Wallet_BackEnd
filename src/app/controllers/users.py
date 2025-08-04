@@ -43,7 +43,7 @@ def register_user_endpoint():
 @user.route("/login", methods=["POST"])
 def login_user_endpoint():
     """
-    The user has to login using username/email and password
+    The user has to login using email and password
     """
     try:
         response = login_user(request.get_json())
