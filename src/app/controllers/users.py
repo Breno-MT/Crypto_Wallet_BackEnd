@@ -2,7 +2,7 @@ from bson import json_util
 from flask import Blueprint, request
 from flask.wrappers import Response
 from src.app import mongo_client
-from src.app.utils.users import create_user_db, login_user, validate_token_user
+from src.app.utils.users import register_user_db, login_user, validate_token_user
 
 user = Blueprint("user", __name__, url_prefix="/user")
 
@@ -24,14 +24,13 @@ def get_users_endpoint():
             mimetype="application/json"
         )
 
-@user.route("/create_user", methods=["POST"])
-def create_user_endpoint():
-    # TODO: transform create_user into register_user
+@user.route("/register", methods=["POST"])
+def register_user_endpoint():
     """
-    This URL expects "username, email, password" in order to create the user.
+    This URL expects "username, email, password" in order to register the user.
     """
     try:
-        response = create_user_db(request.get_json())
+        response = register_user_db(request.get_json())
         return response
 
     except Exception as e:
