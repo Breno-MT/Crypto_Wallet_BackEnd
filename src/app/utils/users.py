@@ -7,11 +7,9 @@ from src.app.utils.token_jwt import create_token
 
 def register_user_db(user_body):
     try:
-        # TODO: improve this line of code to one single function
-        is_email_already_created = mongo_client.users.find_one({"email": user_body["email"]})
-        is_username_already_created = mongo_client.users.find_one({"username": user_body["username"]})
+        is_user_existent = get_user_by_email_or_username(user_body)
 
-        if is_email_already_created or is_username_already_created:
+        if is_user_existent:
             return Response(
                 response=json_util.dumps({"error": "User already exists in the database."}),
                 status=409,
@@ -54,7 +52,6 @@ def login_user(user_body):
         mimetype="application/json"
     )
 
-
 def validate_user_login(user_body):
     get_user = mongo_client.users.find_one({"email": user_body["email"]})
 
@@ -72,3 +69,12 @@ def encrypt_user_password(password):
                 password=password,
                 salt=bcrypt.gensalt(10)
             )
+
+def get_user_by_email_or_username(user_body):
+    is_email_created = mongo_client.users.find_one({"email": user_body["email"]})
+    is_username_created = mongo_client.users.find_one({"username": user_body["username"]})
+
+    if is_email_created or is_username_created:
+        return is_email_created or is_username_created
+    
+    return None
