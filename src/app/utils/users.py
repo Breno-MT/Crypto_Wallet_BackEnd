@@ -5,7 +5,7 @@ import os
 from src.app import mongo_client
 from src.app.config import app_config
 
-def create_user_db(user_body):
+def register_user_db(user_body):
     try:
         is_email_already_created = mongo_client.users.find_one({"email": user_body["email"]})
         is_username_already_created = mongo_client.users.find_one({"username": user_body["username"]})
@@ -23,6 +23,7 @@ def create_user_db(user_body):
         )
 
         mongo_client.users.insert_one(user_body)
+        user_body.pop("password")
 
         return Response(
             response=json_util.dumps({"records": user_body}),
