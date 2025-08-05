@@ -66,7 +66,7 @@ def validate_token_user(token): pass
 
 def encrypt_user_password(password):
     return bcrypt.hashpw(
-                password=password,
+                password=password.encode("utf-8"),
                 salt=bcrypt.gensalt(10)
             )
 
